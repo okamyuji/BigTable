@@ -47,12 +47,17 @@ type OrdersResponse struct {
 	TotalPages int     `json:"total_pages"`
 }
 
-var allowedSortColumns = map[string]bool{
-	"id": true, "order_number": true, "order_type": true,
-	"order_date": true, "customer_name": true, "customer_code": true,
-	"product_name": true, "product_code": true, "quantity": true,
-	"unit_price": true, "total_amount": true, "status": true,
-	"delivery_date": true, "created_at": true,
+// allowedSortColumns maps user-supplied sort keys to fixed column name
+// literals. The value (a constant defined here, never user input) is what
+// gets interpolated into SQL, so tainted input cannot reach the query text.
+var allowedSortColumns = map[string]string{
+	"id": "id", "order_number": "order_number", "order_type": "order_type",
+	"order_date": "order_date", "customer_name": "customer_name",
+	"customer_code": "customer_code", "product_name": "product_name",
+	"product_code": "product_code", "quantity": "quantity",
+	"unit_price": "unit_price", "total_amount": "total_amount",
+	"status": "status", "delivery_date": "delivery_date",
+	"created_at": "created_at",
 }
 
 const offsetThreshold = 10000
@@ -60,8 +65,8 @@ const offsetThreshold = 10000
 func BuildQuery(p QueryParams) (string, []any) {
 	where, args := buildWhere(p)
 	sortCol := "id"
-	if allowedSortColumns[p.Sort] {
-		sortCol = p.Sort
+	if col, ok := allowedSortColumns[p.Sort]; ok {
+		sortCol = col
 	}
 	sortOrder := "ASC"
 	if strings.ToLower(p.Order) == "desc" {
