@@ -167,7 +167,7 @@ E2Eテストを実行します。事前にバックエンドとフロントエ�
 
 ```bash
 cd frontend
-npx playwright test
+pnpm exec playwright test
 ```
 
 ## ディレクトリ構成
