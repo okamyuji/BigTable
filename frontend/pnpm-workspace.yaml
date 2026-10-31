@@ -12,6 +12,7 @@ overrides:
   nanoid: ^3.3.18
   source-map-js@1: ^1.2.2
   tinypool@2: ^2.1.2
+  'minimatch@>=10.0.0 <11.0.1': ^11.0.3
 # 7日未満の版の例外。1版ずつ書き、7日を過ぎたら消す
 minimumReleaseAgeExclude:
   - '@babel/helper-string-parser@7.29.11'
@@ -37,3 +38,5 @@ minimumReleaseAgeExclude:
   - tldts-core@7.4.19
   - tldts@7.4.19
   - typescript-eslint@8.72.0
+  - minimatch@11.0.3
+  - '@isaacs/nonrecursive-glob-match@1.0.3'
